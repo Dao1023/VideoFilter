@@ -29,7 +29,7 @@
                     duration += parts[1];         // 秒
                 }
                 
-                if (duration > 3600) { // 1小时 = 3600秒
+                if (duration < 600 | duration > 1800) { // 1小时 = 3600秒
                     item.style.display = 'none'; // 隐藏这个视频
                 }
             }
