@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         B站视频时长过滤
+// @name         VideoFilter
 // @namespace    http://tampermonkey.net/
 // @version      0.2
-// @description  隐藏时长大于1小时的B站视频
-// @author       You
+// @description  B站视频过滤器，根据内容时长，播放量、弹幕数等过滤
+// @author       Dao
 // @match        https://www.bilibili.com/*
 // @grant        none
 // ==/UserScript==
