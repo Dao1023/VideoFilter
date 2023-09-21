@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         B站视频时长过滤
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  隐藏时长大于1小时的B站视频
 // @author       You
 // @match        https://www.bilibili.com/*
@@ -13,13 +13,22 @@
 
     // 检查所有视频的时长并隐藏时长大于1小时的视频
     function checkVideoDuration() {
-        const videoItems = document.querySelectorAll('.video-item, .video-card-common'); // 在这里你可以根据实际的B站页面结构选择合适的选择器
+        const videoItems = document.querySelectorAll('.video-page-card-small'); // 根据你的HTML样例，选择合适的选择器
         videoItems.forEach(item => {
-            const timeElement = item.querySelector('.so-imgTag_rb, .dur'); // 选择包含视频时长的元素
+            const timeElement = item.querySelector('.duration'); // 选择包含视频时长的元素
             if (timeElement) {
                 const timeText = timeElement.innerText || timeElement.textContent;
-                const [minutePart, secondPart] = timeText.split(':');
-                const duration = parseInt(minutePart, 10) * 60 + parseInt(secondPart, 10); // 将时长转换为秒
+                const parts = timeText.split(':').map(Number); // 将时长分割为[小时, 分钟, 秒]
+                let duration = 0;
+                if (parts.length === 3) {
+                    duration += parts[0] * 3600; // 小时转换为秒
+                    duration += parts[1] * 60;   // 分钟转换为秒
+                    duration += parts[2];         // 秒
+                } else if (parts.length === 2) {
+                    duration += parts[0] * 60;   // 分钟转换为秒
+                    duration += parts[1];         // 秒
+                }
+                
                 if (duration > 3600) { // 1小时 = 3600秒
                     item.style.display = 'none'; // 隐藏这个视频
                 }
